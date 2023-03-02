@@ -1,0 +1,78 @@
+﻿@using UltaTest.Models;
+@model PatientModel
+
+<div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@(Model.Id > 0 ? "Update" : "Add")  Patient</h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="py-1">
+                    @using (Html.BeginForm("AddOrEdit", "Patient", FormMethod.Post, new { id = "patientForm" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(p => p.Id)
+                        <div class="row mb-5">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            @Html.LabelFor(p => p.Name)
+                                            @Html.EditorFor(p => p.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(p => p.Name, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            @Html.LabelFor(p => p.Address)
+                                            @Html.EditorFor(p => p.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(p => p.Address, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            @Html.LabelFor(p => p.Email)
+                                            @Html.EditorFor(p => p.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(p => p.Email, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            @Html.LabelFor(p => p.DateOfBirth)
+                                            @Html.TextBoxFor(model => model.DateOfBirth, new { @type = "date", @class = "form-control datepicker", @Value = Model.DateOfBirth.ToString("yyyy-MM-dd") })
+                                            @Html.ValidationMessageFor(p => p.DateOfBirth, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            @Html.LabelFor(p => p.Gender)
+                                            @Html.DropDownListFor(o => o.Gender, Enum.GetValues(typeof(Gender)).Cast<Gender>().Select(x => new SelectListItem { Text = x.ToString(), Value = ((int)x).ToString() }), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(p => p.Gender, null, new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col d-flex justify-content-end">
+                                <button class="btn btn-primary" type="submit">Save Changes</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>

@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Ulta Test</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            @Html.ActionLink("Ulta Test", "Patient", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+    </nav>
+
+    @Scripts.Render("~/bundles/jquery", "~/bundles/jqueryval")
+
+    <div class="container body-content">
+        <br />
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Ulta Test - By Ivan Schiavinatto</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/toastr")
+    @Html.Raw(UltaTest.Helpers.NotificationsHelper.RenderNotifications())
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        function Done() {
+            $('#user-form-modal').modal('show');
+        }
+
+        $('#confirm-delete').on('show.bs.modal', function (e) {
+            var data = $(e.relatedTarget).data();
+
+            $('#modal-form').attr('action', data.href);
+            $('#modal-form .title').text(data.recordTitle);
+        });
+
+        $('#searchButton').click(function (event) {
+            $(function () {
+                $.ajax({
+                    url: '/patient/list',
+                    type: 'get',
+                    data: { filter: $('#searchFilter').val() },
+                    success: function (result) {
+                        $('#patientList').html(result);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

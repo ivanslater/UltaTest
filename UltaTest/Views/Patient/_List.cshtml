@@ -1,0 +1,62 @@
+﻿@using UltaTest.Models;
+@model PagedList<PatientModel>
+
+<div class="e-panel card">
+    <div class="card-body">
+        <div class="card-title">
+            <h6 class="mr-2"><span>Patients</span></h6>
+        </div>
+        <div class="e-table">
+            <div class="table-responsive table-lg mt-3">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="max-width sortable">Name</th>
+                            <th>Address</th>
+                            <th class="sortable">E-mail</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Content != null && Model.Content.Any())
+                        {
+                            foreach (var patient in Model.Content)
+                            {
+                                <tr>
+                                    <td class="text-nowrap align-middle">@patient.Name</td>
+                                    <td class="text-nowrap align-middle">@patient.Address</td>
+                                    <td class="text-left align-middle">@patient.Email</td>
+                                    <td class="text-left align-middle">@patient.DateOfBirth.ToString("MM/dd/yyyy") (Age: @patient.Age)</td>
+                                    <td class="text-left align-middle">@patient.Gender.ToString()</td>
+                                    <td class="text-center align-middle">
+                                        <div class="btn-group align-top">
+                                            @Ajax.ActionLink("Edit",
+                                                             "AddOrEdit",
+                                                             new { id = patient.Id },
+                                                             new AjaxOptions
+                                                             {
+                                                                 UpdateTargetId = "details",
+                                                                 InsertionMode = InsertionMode.Replace,
+                                                                 OnSuccess = "Done()"
+                                                             },
+                                                             new { @class = "btn btn-sm btn-outline-secondary badge" })
+                                            <button type="button" data-href="/patient/delete/@patient.Id" data-toggle="modal" data-target="#confirm-delete" data-record-title="@patient.Name" name="delete-@patient.Id" class="btn btn-sm btn-outline-secondary badge"><i class="fa fa-trash"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="6" class="text-nowrap align-middle text-center">No data found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

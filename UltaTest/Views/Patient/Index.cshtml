@@ -1,0 +1,67 @@
+﻿<div class="container">
+    <div class="row flex-lg-nowrap">
+        <div class="col">
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="card">
+                        <div class="row card-body">
+                            <div class="col col-9">
+                                <div>
+                                    Search: 
+                                    <div class="input-group-append">
+                                        <input class="form-control w-100 mr-1" type="text" placeholder="Name" value="" id="searchFilter">
+                                        <button class="btn btn-secondary" type="button" id="searchButton">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col text-center col-3">
+                                &nbsp;
+                                @Ajax.ActionLink("New Patient",
+                                                 "AddOrEdit",
+                                                 new { id = 0 },
+                                                 new AjaxOptions
+                                                 {
+                                                    UpdateTargetId = "details",
+                                                    InsertionMode = InsertionMode.Replace,
+                                                    OnSuccess = "Done()"
+                                                 },
+                                                 new { @class = "btn btn-success btn-block" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 mb-3" id="patientList">
+                    @Html.Action("List")
+                </div>
+            </div>
+            <div id="details"></div>
+        </div>
+    </div>
+</div>
+<form method="post" id="modal-form" action="">
+    @Html.AntiForgeryToken()
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to delete <b><i class="title"></i></b>'s record, this procedure is irreversible.</p>
+                    <p>Do you want to proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-md btn-outline-secondary" data-dismiss="modal">
+                        <i class="fa fa-reply"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-md btn-danger">
+                        <i class="fa fa-times"></i> Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
